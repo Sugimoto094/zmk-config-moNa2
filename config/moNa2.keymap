@@ -6,7 +6,6 @@
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
 
 // Layer Names for readability
-
 #define DEFAULT 0
 #define L1 1
 #define L2 2
@@ -24,50 +23,33 @@
     combos { compatible = "zmk,combos"; };
 
     macros {
-        pc_mode: pc_mode {
+        pc_mode: pc_mode { // For BT profile 1
             compatible = "zmk,behavior-macro";
             label = "PC_MODE";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 1 &to DEFAULT>;
+            bindings = <&bt BT_SEL 1>, <&to DEFAULT>;
         };
 
-        ipad_mode_2: ipad_mode_2 {
+        ipad_mode_2: ipad_mode_2 { // For BT profile 2
             compatible = "zmk,behavior-macro";
             label = "IPAD_MODE_2";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 2 &to IPAD_DEFAULT>;
+            bindings = <&bt BT_SEL 2>, <&to IPAD_DEFAULT>;
         };
 
-        iphone_mode: iphone_mode {
+        iphone_mode: iphone_mode { // For BT profile 3
             compatible = "zmk,behavior-macro";
             label = "IPHONE_MODE";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 3 &to IPAD_DEFAULT>;
-        };
-
-        to_layer_0: to_layer_0 {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
-            label = "TO_LAYER_0";
+            bindings = <&bt BT_SEL 3>, <&to IPAD_DEFAULT>;
         };
     };
 
     behaviors {
-        lt_to_layer_0: lt_to_layer_0 {
-            compatible = "zmk,behavior-hold-tap";
-            label = "LAYER_TAP_TO_0";
-            bindings = <&mo>, <&to_layer_0>;
-
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-        };
-
         scroll_up_down: behavior_sensor_rotate_mouse_wheel_up_down {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
-
             tap-ms = <20>;
         };
     };
@@ -76,14 +58,13 @@
         compatible = "zmk,keymap";
 
         /* Layer 0 */
-
         default_layer {
             layer-name = "Default (PC)";
             bindings = <
-&kp Q             &kp W         &kp E         &kp R         &kp T                                      &kp Y         &kp U  &kp I     &kp O     &kp P
-&kp A             &kp S         &kp D         &kp F         &kp G                       &kp MINUS      &kp H         &kp J  &kp K     &kp L     &kp ENTER
-&mt LEFT_SHIFT Z  &kp X         &kp C         &kp V         &kp B         &lt BT TAB    &kp SEMICOLON  &kp N         &kp M  &mkp MB1  &mkp MB2  &mt RIGHT_SHIFT SLASH
-&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &lt L1 SPACE  &lt L2 SPACE  &kp GRAVE     &kp BACKSPACE  &lt L2 ENTER                             &kp ESC
+&kp Q             &kp W         &kp E         &kp R        &kp T                                    &kp Y        &kp U  &kp I     &kp O     &kp P
+&kp A             &kp S         &kp D         &kp F        &kp G                     &kp MINUS      &kp H        &kp J  &kp K     &kp L     &kp ENTER
+&mt LEFT_SHIFT Z  &kp X         &kp C         &kp V        &kp B        &lt BT TAB    &kp SEMICOLON  &kp N        &kp M  &mkp MB1  &mkp MB2  &mt RIGHT_SHIFT SLASH
+&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &lt L1 SPACE &lt L2 SPACE  &kp GRAVE    &kp BACKSPACE  &lt L2 ENTER                            &kp ESC
             >;
 
             sensor-bindings =
@@ -92,7 +73,6 @@
         };
 
         /* Layer 1 */
-
         layer_1 {
             layer-name = "Symbols (PC)";
             bindings = <
@@ -105,27 +85,25 @@
             sensor-bindings = <&scroll_up_down>;
         };
 
-        /* Layer 2 - UPDATED: All keys preserved and placed */
-
+        /* Layer 2 - UPDATED: All original keys preserved, Nav keys added to bottom row */
         layer_2 {
             layer-name = "Nav (PC)";
             bindings = <
-&kp EXCLAMATION  &kp AT_SIGN    &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp DEL  &kp HOME  &kp UP     &kp END     &kp PG_UP
-&kp TILDE        &kp AMPERSAND  &trans    &trans      &trans                 &trans  &trans   &kp LEFT  &kp DOWN   &kp RIGHT   &kp PG_DN
-&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans   &trans    &kp COMMA  &kp PERIOD  &trans
-&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans                                    &trans
+&kp EXCLAMATION  &kp AT_SIGN    &kp HASH     &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans      &trans
+&kp TILDE        &kp AMPERSAND  &to IPAD_DEFAULT &trans      &trans                 &trans  &trans           &kp LEFT      &kp DOWN   &kp RIGHT   &trans
+&kp DEL          &kp HOME       &kp END      &kp PG_UP   &kp PG_DN      &trans    &trans  &trans           &trans        &kp COMMA  &kp PERIOD  &trans
+&trans           &trans         &trans       &trans      &trans       &trans    &trans  &trans                                                &trans
             >;
         };
 
         /* Layer 3 */
-
         ipad_default_layer {
             layer-name = "Default (iPad/iPhone)";
             bindings = <
-&kp Q             &kp W      &kp E         &kp R              &kp T                                           &kp Y              &kp U  &kp I     &kp O     &kp P
-&kp A             &kp S      &kp D         &kp F              &kp G                            &kp MINUS      &kp H              &kp J  &kp K     &kp L     &kp ENTER
-&mt LEFT_SHIFT Z  &kp X      &kp C         &kp V              &kp B              &lt BT TAB    &kp SEMICOLON  &kp N              &kp M  &mkp MB1  &mkp MB2  &mt RIGHT_SHIFT SLASH
-&kp LGUI          &kp LCTRL  &kp LEFT_ALT  &lt IPAD_L1 SPACE  &lt IPAD_L2 SPACE  &kp GRAVE     &kp BACKSPACE  &lt IPAD_L2 ENTER                             &kp ESC
+&kp Q             &kp W         &kp E         &kp R        &kp T                                          &kp Y        &kp U  &kp I     &kp O     &kp P
+&kp A             &kp S         &kp D         &kp F        &kp G                     &kp MINUS            &kp H        &kp J  &kp K     &kp L     &kp ENTER
+&mt LEFT_SHIFT Z  &kp X         &kp C         &kp V        &kp B        &lt BT TAB    &kp SEMICOLON        &kp N        &kp M  &mkp MB1  &mkp MB2  &mt RIGHT_SHIFT SLASH
+&kp LGUI          &kp LCTRL     &kp LEFT_ALT  &lt IPAD_L1 SPACE &lt IPAD_L2 SPACE  &kp GRAVE    &kp BACKSPACE  &lt IPAD_L2 ENTER                       &kp ESC
             >;
 
             sensor-bindings =
@@ -134,7 +112,6 @@
         };
 
         /* Layer 4 */
-
         ipad_layer_1 {
             layer-name = "Symbols (iPad/iPhone)";
             bindings = <
@@ -147,27 +124,26 @@
             sensor-bindings = <&scroll_up_down>;
         };
 
-        /* Layer 5 - UPDATED: All keys preserved and placed */
-
+        /* Layer 5 - UPDATED: All original keys preserved, Nav keys added to bottom row */
         ipad_layer_2 {
             layer-name = "Nav (iPad/iPhone)";
             bindings = <
-&kp EXCLAMATION  &kp AT_SIGN    &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp DEL  &kp HOME  &kp UP     &kp END     &kp PG_UP
-&kp TILDE        &kp AMPERSAND  &trans    &trans      &trans                 &trans  &trans   &kp LEFT  &kp DOWN   &kp RIGHT   &kp PG_DN
-&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans   &trans    &kp COMMA  &kp PERIOD  &trans
-&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans                                    &trans
+&kp EXCLAMATION  &kp AT_SIGN    &kp HASH     &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans      &trans
+&kp TILDE        &kp AMPERSAND  &to DEFAULT &trans      &trans                 &trans  &trans           &kp LEFT      &kp DOWN   &kp RIGHT   &trans
+&kp DEL          &kp HOME       &kp END      &kp PG_UP   &kp PG_DN      &trans    &trans  &trans           &trans        &kp COMMA  &kp PERIOD  &trans
+&trans           &trans         &trans       &trans      &trans       &trans    &trans  &trans                                                &trans
             >;
         };
 
-        /* Layer 6 */
 
+        /* Layer 6 */
         bluetooth {
             layer-name = "Bluetooth";
             bindings = <
-&trans  &trans  &trans  &trans  &trans                    &pc_mode  &iphone_mode  &ipad_mode_2  &trans  &trans
-&trans  &trans  &trans  &trans  &trans            &trans  &trans    &trans        &trans        &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans    &trans        &trans        &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                                        &trans
+&trans  &trans  &trans  &trans  &trans                    &pc_mode      &iphone_mode  &ipad_mode_2  &trans        &trans
+&trans  &trans  &trans  &trans  &trans            &trans  &trans        &trans        &trans        &trans        &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans        &trans        &trans        &trans        &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                                                  &trans
             >;
         };
     };
