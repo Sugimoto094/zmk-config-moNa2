@@ -5,7 +5,7 @@
 
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
 
-// Layer Names for readability - CORRECTED
+// Layer Names for readability
 #define DEFAULT 0
 #define L1 1
 #define L2 2
@@ -101,14 +101,14 @@
             sensor-bindings = <&scroll_up_down>;
         };
 
-        /* Layer 2 */
+        /* Layer 2 - UPDATED with Nav Keys */
         layer_2 {
             layer-name = "Nav (PC)";
             bindings = <
-&kp EXCLAMATION  &kp AT_SIGN    &kp HASH     &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION        &kp UP                  &trans               &trans
-&kp TILDE        &kp AMPERSAND  &to IPAD_DEFAULT &trans      &trans                 &trans  &trans           &kp LEFT            &kp DOWN                &kp RIGHT            &trans
-&trans           &trans         &trans       &trans      &trans       &trans    &trans  &trans           &trans              &kp COMMA           &kp PERIOD           &trans
-&trans           &trans         &trans       &trans      &trans       &trans    &trans  &trans                                                                           &trans
+&kp EXCLAMATION  &kp AT_SIGN    &kp HASH         &kp DOLLAR   &kp PERCENT                    &kp PG_UP  &kp UP      &kp PG_DN      &trans       &trans
+&kp TILDE        &kp AMPERSAND  &to IPAD_DEFAULT &kp DEL      &trans                 &trans  &kp HOME   &kp LEFT    &kp DOWN       &kp RIGHT    &kp END
+&trans           &trans         &trans           &trans       &trans       &trans    &trans  &trans     &trans         &kp COMMA    &kp PERIOD   &trans
+&trans           &trans         &trans           &trans       &trans       &trans    &trans  &trans                                            &trans
             >;
         };
 
@@ -140,14 +140,14 @@
             sensor-bindings = <&scroll_up_down>;
         };
 
-        /* Layer 5 */
+        /* Layer 5 - UPDATED with Nav Keys */
         ipad_layer_2 {
             layer-name = "Nav (iPad/iPhone)";
             bindings = <
-&kp EXCLAMATION  &kp AT_SIGN    &kp HASH     &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION        &kp UP                  &trans               &trans
-&kp TILDE        &kp AMPERSAND  &to DEFAULT &trans      &trans                 &trans  &trans           &kp LEFT            &kp DOWN                &kp RIGHT            &trans
-&trans           &trans         &trans       &trans      &trans       &trans    &trans  &trans           &trans              &kp COMMA           &kp PERIOD           &trans
-&trans           &trans         &trans       &trans      &trans       &trans    &trans  &trans                                                                           &trans
+&kp EXCLAMATION  &kp AT_SIGN    &kp HASH         &kp DOLLAR   &kp PERCENT                    &kp PG_UP  &kp UP      &kp PG_DN      &trans       &trans
+&kp TILDE        &kp AMPERSAND  &to DEFAULT      &kp DEL      &trans                 &trans  &kp HOME   &kp LEFT    &kp DOWN       &kp RIGHT    &kp END
+&trans           &trans         &trans           &trans       &trans       &trans    &trans  &trans     &trans         &kp COMMA    &kp PERIOD   &trans
+&trans           &trans         &trans           &trans       &trans       &trans    &trans  &trans                                            &trans
             >;
         };
 
