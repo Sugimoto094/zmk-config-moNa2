@@ -9,7 +9,7 @@
 #define DEFAULT 0
 #define L1 1
 #define L2 2
-#define BT 3
+#define BT 3 // ここでBTを3番と定義
 #define IPAD_DEFAULT 4
 #define IPAD_L1 5
 #define IPAD_L2 6
@@ -148,8 +148,8 @@
         };
 
 
-        /* == Bluetooth Layer (Shared) - UPDATED == */
-        bluetooth {
+        /* == Bluetooth Layer (Shared) == */
+        bluetooth { // このレイヤーが3番目 (0から数えて)
             layer-name = "Bluetooth";
             bindings = <
 &trans  &trans  &trans  &trans  &trans                    &pc_mode      &iphone_mode  &ipad_mode_2  &trans        &trans
