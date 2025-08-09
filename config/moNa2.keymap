@@ -17,30 +17,34 @@
 
     macros {
         // --- Device Switching Macros ---
-
         pc_mode: pc_mode {
             compatible = "zmk,behavior-macro";
             label = "PC_MODE";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 0 &to 0>;
+            bindings = <&bt BT_SEL 0>, <&to 0>;
         };
-
         iphone_mode: iphone_mode {
             compatible = "zmk,behavior-macro";
             label = "IPHONE_MODE";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 1 &to 4>;
+            bindings = <&bt BT_SEL 1>, <&to 4>;
         };
-
         ipad_mode_2: ipad_mode_2 {
             compatible = "zmk,behavior-macro";
             label = "IPAD_MODE_2";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 2 &to 4>;
+            bindings = <&bt BT_SEL 2>, <&to 4>;
         };
 
-        // --- Original Macro (Restored) ---
+        // --- Original Macro  ---
+        to_layer_0: to_layer_0 {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
+            label = "TO_LAYER_0";
+        };
     };
+
 
     behaviors {
         // --- Original Behaviors ---
