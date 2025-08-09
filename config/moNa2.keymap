@@ -5,14 +5,14 @@
 
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
 
-// Layer Names for readability
+// Layer Names for readability - CORRECTED
 #define DEFAULT 0
 #define L1 1
 #define L2 2
-#define BT 3 // ここでBTを3番と定義
-#define IPAD_DEFAULT 4
-#define IPAD_L1 5
-#define IPAD_L2 6
+#define IPAD_DEFAULT 3
+#define IPAD_L1 4
+#define IPAD_L2 5
+#define BT 6
 
 &mt {
     flavor = "balanced";
@@ -73,7 +73,7 @@
     keymap {
         compatible = "zmk,keymap";
 
-        /* == PC Layers == */
+        /* Layer 0 */
         default_layer {
             layer-name = "Default (PC)";
             bindings = <
@@ -88,6 +88,7 @@
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
+        /* Layer 1 */
         layer_1 {
             layer-name = "Symbols (PC)";
             bindings = <
@@ -100,6 +101,7 @@
             sensor-bindings = <&scroll_up_down>;
         };
 
+        /* Layer 2 */
         layer_2 {
             layer-name = "Nav (PC)";
             bindings = <
@@ -110,7 +112,7 @@
             >;
         };
 
-        /* == iPad & iPhone Layers == */
+        /* Layer 3 */
         ipad_default_layer {
             layer-name = "Default (iPad/iPhone)";
             bindings = <
@@ -125,6 +127,7 @@
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
+        /* Layer 4 */
         ipad_layer_1 {
             layer-name = "Symbols (iPad/iPhone)";
             bindings = <
@@ -137,6 +140,7 @@
             sensor-bindings = <&scroll_up_down>;
         };
 
+        /* Layer 5 */
         ipad_layer_2 {
             layer-name = "Nav (iPad/iPhone)";
             bindings = <
@@ -148,8 +152,8 @@
         };
 
 
-        /* == Bluetooth Layer (Shared) == */
-        bluetooth { // このレイヤーが3番目 (0から数えて)
+        /* Layer 6 */
+        bluetooth {
             layer-name = "Bluetooth";
             bindings = <
 &trans  &trans  &trans  &trans  &trans                    &pc_mode      &iphone_mode  &ipad_mode_2  &trans        &trans
