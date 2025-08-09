@@ -19,14 +19,20 @@
         // --- Device Switching Macros ---
         pc_mode: pc_mode {
             compatible = "zmk,behavior-macro";
+            label = "PC_MODE";
+            #binding-cells = <0>;
             bindings = <&bt BT_SEL 1>, <&to 0>;
         };
         ipad_mode_2: ipad_mode_2 {
             compatible = "zmk,behavior-macro";
+            label = "IPAD_MODE_2";
+            #binding-cells = <0>;
             bindings = <&bt BT_SEL 2>, <&to 4>;
         };
         iphone_mode: iphone_mode {
             compatible = "zmk,behavior-macro";
+            label = "IPHONE_MODE";
+            #binding-cells = <0>;
             bindings = <&bt BT_SEL 3>, <&to 4>;
         };
 
