@@ -7,7 +7,6 @@
 #define MOUSE 5
 #define SCROLL 6
 
-// OS設定を日本語キーボードのまま使用するための変換定義
 // --- 安定動作用の中間トークン（数値直書きを避ける）
 #define K_YEN 0x89   // ¥ 物理キー
 #define K_RO  0x87   // RO 物理キー
@@ -22,13 +21,12 @@
 #define JP_PLUS         COLON             // +
 #define JP_TILDE        PLUS              // ~
 #define JP_PIPE         LS(K_YEN)         // |
-#define JP_AT           LEFT_BRACKET      // @（JISでは [ の位置が @ になるため、無修飾で @）
+#define JP_AT           LEFT_BRACKET      // @（JISの[位置）
 #define JP_COLON        SINGLE_QUOTE      // :
 #define JP_ASTERISK     DOUBLE_QUOTES     // *
-#define JP_BACKQUOTE    GRAVE             // 半角/全角切替（あなたの現行に合わせる）
+#define JP_BACKQUOTE    GRAVE             // 半角/全角切替（現行仕様に合わせる）
 #define JP_UNDERSCORE   LS(K_RO)          // _
-/* ★ ここを修正（RO/0x88をやめ、ブラケットは論理キーで）
-   JISでは [ と ] は “ブラケットの論理キー＋修飾”で生成するのが安定 */
+/* JIS補正：ブラケット/ブレースは論理キーで安定化 */
 #define JP_LBRACKET     LS(LEFT_BRACKET)  // [
 #define JP_RBRACKET     RIGHT_BRACKET     // ]
 #define JP_LBRACE       LEFT_BRACE        // {
@@ -78,6 +76,32 @@
             bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
             label = "TO_LAYER_0";
         };
+
+        // --- Always-ASCII brackets/braces（英数 → 入力 → かな に戻す） ---
+        ascii_lbracket: ascii_lbracket {
+            compatible = "zmk,behavior-macro";
+            label = "ASCII_[";
+            #binding-cells = <0>;
+            bindings = <&kp JP_EISU &text "[" &kp JP_KANA>;
+        };
+        ascii_rbracket: ascii_rbracket {
+            compatible = "zmk,behavior-macro";
+            label = "ASCII_]";
+            #binding-cells = <0>;
+            bindings = <&kp JP_EISU &text "]" &kp JP_KANA>;
+        };
+        ascii_lbrace: ascii_lbrace {
+            compatible = "zmk,behavior-macro";
+            label = "ASCII_{";
+            #binding-cells = <0>;
+            bindings = <&kp JP_EISU &text "{" &kp JP_KANA>;
+        };
+        ascii_rbrace: ascii_rbrace {
+            compatible = "zmk,behavior-macro";
+            label = "ASCII_}";
+            #binding-cells = <0>;
+            bindings = <&kp JP_EISU &text "}" &kp JP_KANA>;
+        };
     };
 
     behaviors {
@@ -105,7 +129,6 @@
         compatible = "zmk,keymap";
 
         /* PC Layer 0: Default */
-
         default_layer {
             bindings = <
 &kp Q             &kp W     &kp E         &kp R        &kp T                                    &kp Y        &kp U  &kp I     &kp O     &kp P
@@ -119,13 +142,16 @@
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-        /* PC Layer 1: Symbols */
-
+        /* PC Layer 1: Symbols
+         * 1行目：( )
+         * 2行目：[ ]
+         * 3行目：{ }
+         */
         layer_1 {
             bindings = <
 &kp MINUS          &kp N7  &kp N8  &kp N9  &kp JP_PLUS                                     &kp JP_LPAREN    &kp JP_RPAREN    &trans         &trans         &trans
-&kp SLASH          &kp N4  &kp N5  &kp N6  &kp JP_ASTERISK                  &kp SEMICOLON  &kp JP_LBRACKET  &kp JP_RBRACKET  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
-&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp PERIOD       &kp JP_EQUAL    &kp JP_COLON   &kp JP_LBRACE    &kp JP_RBRACE    &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
+&kp SLASH          &kp N4  &kp N5  &kp N6  &kp JP_ASTERISK                  &kp SEMICOLON  &ascii_lbracket  &ascii_rbracket  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
+&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp PERIOD       &kp JP_EQUAL    &kp JP_COLON   &ascii_lbrace    &ascii_rbrace    &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
 &trans             &trans  &trans  &trans  &trans           &trans          &trans         &trans                                                          &trans
             >;
 
@@ -133,7 +159,6 @@
         };
 
         /* PC Layer 2: Navigation */
-
         layer_2 {
             bindings = <
 &kp EXCLAMATION  &kp JP_AT         &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans      &trans
@@ -144,7 +169,6 @@
         };
 
         /* Layer 3: Bluetooth */
-
         bluetooth {
             bindings = <
 &trans  &trans  &trans  &trans  &trans                    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &trans
@@ -155,7 +179,6 @@
         };
 
         /* iPad/iPhone Layer 4: Default */
-
         ipad_default_layer {
             bindings = <
 &kp Q             &kp W      &kp E         &kp R        &kp T                                    &kp Y        &kp U  &kp I     &kp O     &kp P
@@ -169,13 +192,16 @@
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-        /* iPad/iPhone Layer 5: Symbols */
-
+        /* iPad/iPhone Layer 5: Symbols
+         * 1行目：( )
+         * 2行目：[ ]
+         * 3行目：{ }
+         */
         ipad_layer_1 {
             bindings = <
 &kp MINUS             &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp JP_PLUS                              &kp JP_LPAREN  &kp JP_RPAREN  &trans         &trans         &trans
-&kp SLASH             &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp JP_ASTERISK                  &trans  &kp JP_LBRACE  &kp JP_RBRACE  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
-&mt LEFT_SHIFT KP_N0  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp PERIOD       &kp JP_EQUAL    &trans  &kp JP_LBRACE  &kp JP_RBRACE  &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
+&kp SLASH             &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp JP_ASTERISK                  &trans  &ascii_lbracket  &ascii_rbracket  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
+&mt LEFT_SHIFT KP_N0  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp PERIOD       &kp JP_EQUAL    &trans  &ascii_lbrace    &ascii_rbrace    &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
 &trans                &trans     &trans     &trans     &trans           &trans          &trans  &trans                                                      &trans
             >;
 
@@ -183,7 +209,6 @@
         };
 
         /* iPad/iPhone Layer 6: Navigation */
-
         ipad_layer_2 {
             bindings = <
 &kp EXCLAMATION  &kp JP_AT         &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans      &trans
