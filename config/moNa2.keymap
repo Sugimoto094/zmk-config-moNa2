@@ -32,6 +32,7 @@
 #define JP_EISU         LANGUAGE_2        // 英数
 #define JP_HANZEN       GRAVE             // 半角/全角
 
+
 &mt {
     flavor = "balanced";
     quick-tap-ms = <0>;
