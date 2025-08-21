@@ -17,26 +17,30 @@
 
     macros {
         // --- Device Switching Macros ---
+
         pc_mode: pc_mode {
             compatible = "zmk,behavior-macro";
             label = "PC_MODE";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 0>, <&to 0>;
+            bindings = <&bt BT_SEL 0 &to 0>;
         };
+
         iphone_mode: iphone_mode {
             compatible = "zmk,behavior-macro";
             label = "IPHONE_MODE";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 1>, <&to 4>;
+            bindings = <&bt BT_SEL 1 &to 4>;
         };
+
         ipad_mode_2: ipad_mode_2 {
             compatible = "zmk,behavior-macro";
             label = "IPAD_MODE_2";
             #binding-cells = <0>;
-            bindings = <&bt BT_SEL 2>, <&to 4>;
+            bindings = <&bt BT_SEL 2 &to 4>;
         };
 
         // --- Original Macro  ---
+
         to_layer_0: to_layer_0 {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
@@ -44,7 +48,6 @@
             label = "TO_LAYER_0";
         };
     };
-
 
     behaviors {
         // --- Original Behaviors ---
@@ -89,10 +92,10 @@
 
         layer_1 {
             bindings = <
-&kp MINUS                   &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp PLUS                           &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &trans         &trans             &trans
-&kp SLASH                   &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp ASTERISK               &trans  &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp SEMICOLON  &kp SQT            &kp BACKSLASH
-&mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD    &kp EQUAL    &trans  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp COLON      &kp DOUBLE_QUOTES  &kp PIPE
-&trans                      &trans           &trans           &trans           &trans        &trans       &trans  &trans                                                                         &trans
+&kp MINUS          &kp N7  &kp N8  &kp N9  &kp PLUS                           &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &trans         &trans             &trans
+&kp SLASH          &kp N4  &kp N5  &kp N6  &kp ASTERISK               &trans  &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp SEMICOLON  &kp SQT            &kp BACKSLASH
+&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp PERIOD    &kp EQUAL    &trans  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp COLON      &kp DOUBLE_QUOTES  &kp PIPE
+&trans             &trans  &trans  &trans  &trans        &trans       &trans  &trans                                                                         &trans
             >;
 
             sensor-bindings = <&scroll_up_down>;
