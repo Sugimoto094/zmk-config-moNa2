@@ -1,12 +1,3 @@
-了解しました！
-ではご要望通り、**PCレイヤー・iPadレイヤーともに () の下に \[] → {} を配置**した完全版をまとめます。
-※それ以外の部分は触らずに残してあります。
-
----
-
-# 修正版 全体コード
-
-```dts
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
@@ -29,14 +20,16 @@
 #define JP_AT           LEFT_BRACKET      // @
 #define JP_COLON        SINGLE_QUOTE      // :
 #define JP_ASTERISK     DOUBLE_QUOTES     // *
-#define JP_BACKQUOTE    LEFT_BRACE        // `
+#define JP_BACKQUOTE    GRAVE             // 半角/全角切替
 #define JP_UNDERSCORE   LS(0x87)          // _
-#define JP_LBRACKET     RIGHT_BRACKET     // [
-#define JP_RBRACKET     BACKSLASH         // ]
+#define JP_LBRACKET     0x87              // [
+#define JP_RBRACKET     0x88              // ]
+#define JP_LBRACE       LS(0x87)          // {
+#define JP_RBRACE       LS(0x88)          // }
 #define JP_LPAREN       ASTERISK          // (
 #define JP_RPAREN       LEFT_PARENTHESIS  // )
-#define JP_LBRACE       RIGHT_BRACE       // {
-#define JP_RBRACE       PIPE              // }
+#define JP_LBRACE       LS(0x87)          // {
+#define JP_RBRACE       LS(0x88)          // }
 #define JP_KANA         LANGUAGE_1        // かな
 #define JP_EISU         LANGUAGE_2        // 英数
 #define JP_HANZEN       GRAVE             // 半角/全角
@@ -111,112 +104,4 @@
 
         default_layer {
             bindings = <
-&kp Q             &kp W         &kp E         &kp R        &kp T                                    &kp Y        &kp U  &kp I
-  &kp O     &kp P
-&kp A             &kp S         &kp D         &kp F        &kp G                     &kp MINUS      &kp H        &kp J  &kp K
-  &kp L     &kp ENTER
-&mt LEFT_SHIFT Z  &kp X         &kp C         &kp V        &kp B        &lt 3 TAB    &kp FSLH       &kp N        &kp M  &mkp MB1
-  &mkp MB2  &mt RIGHT_SHIFT SLASH
-&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &lt 1 SPACE  &lt 2 SPACE  &kp JP_BACKQUOTE    &kp BACKSPACE  &lt 2 ENTER
-                   &kp ESC
-            >;
-
-            sensor-bindings =
-                <&scroll_up_down>,
-                <&inc_dec_kp C_VOL_DN C_VOL_UP>;
-        };
-
-        /* PC Layer 1: Symbols */
-
-        layer_1 {
-            bindings = <
-&kp MINUS          &kp N7  &kp N8  &kp N9  &kp JP_PLUS           &kp JP_LPAREN   &kp JP_RPAREN   &trans       &trans      &trans
- &trans             &trans
-&kp SLASH          &kp N4  &kp N5  &kp N6  &kp JP_ASTERISK       &kp SEMI        &kp JP_LBRACKET &kp JP_RBRACKET &trans
-  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
-&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp PERIOD  &kp JP_EQUAL  &kp JP_COLON  &kp JP_LBRACE  &kp JP_RBRACE
-  &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
-&trans             &trans  &trans  &trans  &trans     &trans   &trans  &trans
-                   &trans
-            >;
-
-            sensor-bindings = <&scroll_up_down>;
-        };
-
-        /* PC Layer 2: Navigation */
-
-        layer_2 {
-            bindings = <
-&kp EXCLAMATION  &kp JP_AT    &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans      &trans
-&kp JP_TILDE        &kp JP_AMPERSAND  &to 4     &trans      &trans                 &trans  &trans           &kp LEFT      &kp DOWN   &kp RIGHT   &trans
-&kp DEL          &kp HOME       &kp END   &kp PG_UP   &kp PG_DN    &trans    &trans  &trans           &trans        &kp COMMA  &kp PERIOD  &trans
-&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans
-           &trans
-            >;
-        };
-
-        /* Layer 3: Bluetooth */
-
-        bluetooth {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans                    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &trans
-&trans  &trans  &trans  &trans  &trans            &trans  &to 0         &to 4         &to 4         &trans        &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans        &trans        &trans        &trans        &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                                                  &trans
-            >;
-        };
-
-        /* iPad/iPhone Layer 4: Default */
-
-        ipad_default_layer {
-            bindings = <
-&kp Q             &kp W      &kp E         &kp R        &kp T                                    &kp Y        &kp U  &kp I     &kp O     &kp P
-&kp A             &kp S      &kp D         &kp F        &kp G                     &kp MINUS      &kp H        &kp J  &kp K     &kp L     &kp ENTER
-&mt LEFT_SHIFT Z  &kp X      &kp C         &kp V        &kp B        &lt 3 TAB    &kp SEMICOLON  &kp N        &kp M  &mkp MB1  &mkp MB2  &mt RIGHT_SHIFT SLASH
-&kp LGUI          &kp LCTRL  &kp LEFT_ALT  &lt 5 SPACE  &lt 6 SPACE  &kp JP_BACKQUOTE    &kp BACKSPACE  &lt 6 ENTER
-                &kp ESC
-            >;
-
-            sensor-bindings =
-                <&scroll_up_down>,
-                <&inc_dec_kp C_VOL_DN C_VOL_UP>;
-        };
-
-        /* iPad/iPhone Layer 5: Symbols */
-
-        ipad_layer_1 {
-            bindings = <
-&kp MINUS                   &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp JP_PLUS     &kp JP_LPAREN   &kp JP_RPAREN   &trans        &trans   &trans
-&kp SLASH                   &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp JP_ASTERISK &trans          &kp JP_LBRACKET &kp JP_RBRACKET &trans
-&mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD  &kp JP_EQUAL  &kp JP_COLON  &kp JP_LBRACE &kp JP_RBRACE
-                                                                 &trans
-&trans                      &trans           &trans           &trans           &trans    &trans   &trans   &trans
-                                                                 &trans
-            >;
-
-            sensor-bindings = <&scroll_up_down>;
-        };
-
-        /* iPad/iPhone Layer 6: Navigation */
-
-        ipad_layer_2 {
-            bindings = <
-&kp EXCLAMATION  &kp JP_AT    &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans      &trans
-&kp JP_TILDE        &kp JP_AMPERSAND  &to 0     &trans      &trans                 &trans  &trans           &kp LEFT      &kp DOWN   &kp RIGHT   &trans
-&kp DEL          &kp HOME       &kp END   &kp PG_UP   &kp PG_DN    &trans    &trans  &trans           &trans        &kp COMMA  &kp PERIOD  &trans
-&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans
-           &trans
-            >;
-        };
-    };
-};
-```
-
----
-
-✅ これで **( ) → \[ ] → { } が縦に並ぶ**ように修正済みです。
-他の部分（デフォルトレイヤーやマクロ等）は一切触っていません。
-
----
-
-👉 この全体コードをそのまま `west build` して良いですか？ それとも **変更部分だけ抜き出した簡易版**も欲しいですか？
+&kp Q             &kp W         &kp E         &kp R        &
