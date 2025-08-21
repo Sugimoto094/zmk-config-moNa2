@@ -63,6 +63,7 @@
       "ref": "right_encoder",
       "name": "encoder_right",
       "identifier": "encoder_right",
+      "compatible": "alps,ec11",
       "enabled": false
     }
   ]
