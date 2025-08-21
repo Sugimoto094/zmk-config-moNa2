@@ -7,34 +7,30 @@
 #define MOUSE 5
 #define SCROLL 6
 
-// --- 安定動作用の中間トークン（数値直書きを避ける）
-#define K_YEN 0x89   // ¥ 物理キー
-#define K_RO  0x87   // RO 物理キー
-
-// OS設定を日本語キーボードのまま使用するための変換定義
+// OS設定を日本語キーボードのまま使用するための変換定義（kloir-z方式）
 #define JP_DQUOTE       AT                // "
 #define JP_AMPERSAND    CARET             // &
 #define JP_QUOTE        AMPERSAND         // '
 #define JP_EQUAL        UNDER             // =
 #define JP_CARET        EQUAL             // ^
-#define JP_YEN          K_YEN             // ¥
+#define JP_YEN          0x89              // ¥ (物理 ¥ キー)
 #define JP_PLUS         COLON             // +
 #define JP_TILDE        PLUS              // ~
-#define JP_PIPE         LS(K_YEN)         // |
-#define JP_AT           LEFT_BRACKET      // @（JISの[位置）
+#define JP_PIPE         LS(0x89)          // |
+#define JP_AT           LEFT_BRACKET      // @
 #define JP_COLON        SINGLE_QUOTE      // :
 #define JP_ASTERISK     DOUBLE_QUOTES     // *
-#define JP_BACKQUOTE    GRAVE             // 半角/全角切替（現行仕様に合わせる）
-#define JP_UNDERSCORE   LS(K_RO)          // _
-/* JIS補正：ブラケット/ブレースは論理キーで安定化 */
-#define JP_LBRACKET     LS(LEFT_BRACKET)  // [
-#define JP_RBRACKET     RIGHT_BRACKET     // ]
-#define JP_LBRACE       LEFT_BRACE        // {
-#define JP_RBRACE       RIGHT_BRACE       // }
+#define JP_BACKQUOTE    LEFT_BRACE        // `
+#define JP_UNDERSCORE   LS(0x87)          // _
+#define JP_LBRACKET     RIGHT_BRACKET     // [
+#define JP_RBRACKET     BACKSLASH         // ]
 #define JP_LPAREN       ASTERISK          // (
 #define JP_RPAREN       LEFT_PARENTHESIS  // )
+#define JP_LBRACE       RIGHT_BRACE       // {
+#define JP_RBRACE       PIPE              // }
 #define JP_KANA         LANGUAGE_1        // かな
 #define JP_EISU         LANGUAGE_2        // 英数
+#define JP_HANZEN       GRAVE             // 半角/全角
 
 &mt {
     flavor = "balanced";
@@ -69,38 +65,11 @@
         };
 
         // --- Original Macro  ---
-
         to_layer_0: to_layer_0 {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
             bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
             label = "TO_LAYER_0";
-        };
-
-        // --- ASCII brackets/braces（英数 → 物理キー → かな に戻す） ---
-        ascii_lbracket: ascii_lbracket {
-            compatible = "zmk,behavior-macro";
-            label = "ASCII_[";
-            #binding-cells = <0>;
-            bindings = <&kp JP_EISU &kp JP_LBRACKET &kp JP_KANA>;
-        };
-        ascii_rbracket: ascii_rbracket {
-            compatible = "zmk,behavior-macro";
-            label = "ASCII_]";
-            #binding-cells = <0>;
-            bindings = <&kp JP_EISU &kp JP_RBRACKET &kp JP_KANA>;
-        };
-        ascii_lbrace: ascii_lbrace {
-            compatible = "zmk,behavior-macro";
-            label = "ASCII_{";
-            #binding-cells = <0>;
-            bindings = <&kp JP_EISU &kp JP_LBRACE &kp JP_KANA>;
-        };
-        ascii_rbrace: ascii_rbrace {
-            compatible = "zmk,behavior-macro";
-            label = "ASCII_}";
-            #binding-cells = <0>;
-            bindings = <&kp JP_EISU &kp JP_RBRACE &kp JP_KANA>;
         };
     };
 
@@ -146,12 +115,13 @@
          * 1行目：( )
          * 2行目：[ ]
          * 3行目：{ }
+         * （ascii_* マクロは使わず JP_* をそのまま使用）
          */
         layer_1 {
             bindings = <
 &kp MINUS          &kp N7  &kp N8  &kp N9  &kp JP_PLUS                                     &kp JP_LPAREN    &kp JP_RPAREN    &trans         &trans         &trans
-&kp SLASH          &kp N4  &kp N5  &kp N6  &kp JP_ASTERISK                  &kp SEMICOLON  &ascii_lbracket  &ascii_rbracket  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
-&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp PERIOD       &kp JP_EQUAL    &kp JP_COLON   &ascii_lbrace    &ascii_rbrace    &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
+&kp SLASH          &kp N4  &kp N5  &kp N6  &kp JP_ASTERISK                  &kp SEMICOLON  &kp JP_LBRACKET  &kp JP_RBRACKET  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
+&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp PERIOD       &kp JP_EQUAL    &kp JP_COLON   &kp JP_LBRACE    &kp JP_RBRACE    &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
 &trans             &trans  &trans  &trans  &trans           &trans          &trans         &trans                                                          &trans
             >;
 
@@ -192,16 +162,12 @@
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-        /* iPad/iPhone Layer 5: Symbols
-         * 1行目：( )
-         * 2行目：[ ]
-         * 3行目：{ }
-         */
+        /* iPad/iPhone Layer 5: Symbols（こちらも JP_* 直打ち） */
         ipad_layer_1 {
             bindings = <
 &kp MINUS             &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp JP_PLUS                              &kp JP_LPAREN  &kp JP_RPAREN  &trans         &trans         &trans
-&kp SLASH             &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp JP_ASTERISK                  &trans  &ascii_lbracket  &ascii_rbracket  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
-&mt LEFT_SHIFT KP_N0  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp PERIOD       &kp JP_EQUAL    &trans  &ascii_lbrace    &ascii_rbrace    &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
+&kp SLASH             &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp JP_ASTERISK                  &trans  &kp JP_LBRACKET  &kp JP_RBRACKET  &kp SEMICOLON  &kp JP_QUOTE   &kp JP_YEN
+&mt LEFT_SHIFT KP_N0  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp PERIOD       &kp JP_EQUAL    &trans  &kp JP_LBRACE    &kp JP_RBRACE    &kp JP_COLON   &kp JP_DQUOTE  &kp JP_PIPE
 &trans                &trans     &trans     &trans     &trans           &trans          &trans  &trans                                                      &trans
             >;
 
