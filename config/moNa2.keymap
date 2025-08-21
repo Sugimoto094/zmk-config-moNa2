@@ -77,30 +77,30 @@
             label = "TO_LAYER_0";
         };
 
-        // --- Always-ASCII brackets/braces（英数 → 入力 → かな に戻す） ---
+        // --- ASCII brackets/braces（英数 → 物理キー → かな に戻す） ---
         ascii_lbracket: ascii_lbracket {
             compatible = "zmk,behavior-macro";
             label = "ASCII_[";
             #binding-cells = <0>;
-            bindings = <&kp JP_EISU &text "[" &kp JP_KANA>;
+            bindings = <&kp JP_EISU &kp JP_LBRACKET &kp JP_KANA>;
         };
         ascii_rbracket: ascii_rbracket {
             compatible = "zmk,behavior-macro";
             label = "ASCII_]";
             #binding-cells = <0>;
-            bindings = <&kp JP_EISU &text "]" &kp JP_KANA>;
+            bindings = <&kp JP_EISU &kp JP_RBRACKET &kp JP_KANA>;
         };
         ascii_lbrace: ascii_lbrace {
             compatible = "zmk,behavior-macro";
             label = "ASCII_{";
             #binding-cells = <0>;
-            bindings = <&kp JP_EISU &text "{" &kp JP_KANA>;
+            bindings = <&kp JP_EISU &kp JP_LBRACE &kp JP_KANA>;
         };
         ascii_rbrace: ascii_rbrace {
             compatible = "zmk,behavior-macro";
             label = "ASCII_}";
             #binding-cells = <0>;
-            bindings = <&kp JP_EISU &text "}" &kp JP_KANA>;
+            bindings = <&kp JP_EISU &kp JP_RBRACE &kp JP_KANA>;
         };
     };
 
