@@ -21,10 +21,10 @@
 #define JP_ASTERISK     DOUBLE_QUOTES     // *
 #define JP_BACKQUOTE    GRAVE             // 半角/全角
 #define JP_UNDERSCORE   LS(MINUS)         // _
-#define JP_LBRACKET     LEFT_BRACE        // [
-#define JP_RBRACKET     RIGHT_BRACE       // ]
-#define JP_LBRACE       LS(LEFT_BRACE)    // {
-#define JP_RBRACE       LS(RIGHT_BRACE)   // }
+#define JP_LBRACKET     LEFT_BRACKET      // [
+#define JP_RBRACKET     RIGHT_BRACKET     // ]
+#define JP_LBRACE       LS(LEFT_BRACKET)  // {
+#define JP_RBRACE       LS(RIGHT_BRACKET) // }
 #define JP_LPAREN       N9                // (
 #define JP_RPAREN       N0                // )
 #define JP_HANZEN       GRAVE             // 半角/全角
