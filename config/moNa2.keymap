@@ -4,14 +4,13 @@
  *  - iPad(US設定)で使うときは iPadモード（&tog_ls_off を含む）を押す
  *  - Keymap Editor上はUS配列のまま視覚的に一致します（&kp を上書き）
  */
+/* 重要：kpオーバーライドは他インクルードより“下”に置く */
 
+#include <layout_shift_kp_override.dtsi>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
-
-/* 重要：kpオーバーライドは他インクルードより“下”に置く */
-#include <layout_shift_kp_override.dtsi>
 
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
 #define MOUSE 5
@@ -22,17 +21,21 @@
     quick-tap-ms = <0>;
 };
 
- / {
+/ {
     combos { compatible = "zmk,combos"; };
 
     /* ===== Macros ===== */
+
     macros {
         /* OS/配列を確実に揃えるため、トグルではなく明示ON/OFFを使う */
+
         pc_mode: pc_mode {
             compatible = "zmk,behavior-macro";
             label = "PC_MODE";
             #binding-cells = <0>;
+
             /* Windows: BTプロファイル0 + レイアウトシフト ON + PC用レイヤへ */
+
             bindings = <&bt BT_SEL 0 &tog_ls_on &to 0>;
         };
 
@@ -40,7 +43,9 @@
             compatible = "zmk,behavior-macro";
             label = "IPHONE_MODE";
             #binding-cells = <0>;
+
             /* iPhone: 例としてBT1 + レイアウトシフト OFF + iOS用レイヤへ */
+
             bindings = <&bt BT_SEL 1 &tog_ls_off &to 4>;
         };
 
@@ -48,11 +53,14 @@
             compatible = "zmk,behavior-macro";
             label = "IPAD_MODE_2";
             #binding-cells = <0>;
+
             /* iPad: BT2 + レイアウトシフト OFF + iOS用レイヤへ */
+
             bindings = <&bt BT_SEL 2 &tog_ls_off &to 4>;
         };
 
         /* 汎用：任意のレイヤへ戻る（既存のまま） */
+
         to_layer_0: to_layer_0 {
             compatible = "zmk,behavior-macro-one-param";
             label = "TO_LAYER_0";
@@ -62,38 +70,46 @@
     };
 
     /* ===== Custom Behaviors ===== */
+
     behaviors {
         lt_to_layer_0: lt_to_layer_0 {
             compatible = "zmk,behavior-hold-tap";
             label = "LAYER_TAP_TO_0";
             bindings = <&mo>, <&to_layer_0>;
+
             #binding-cells = <2>;
             tapping-term-ms = <200>;
         };
 
         /* マウスホイール回転 */
+
         scroll_up_down: behavior_sensor_rotate_mouse_wheel_up_down {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
+
             tap-ms = <20>;
         };
     };
 
     /* ===== Keymap ===== */
+
     keymap {
         compatible = "zmk,keymap";
 
         /* --- PC Layer 0: Default（US論理） --- */
+
         default_layer {
             bindings = <
-&kp Q             &kp W     &kp E         &kp R        &kp T                                     &kp Y        &kp U   &kp I      &kp O      &kp P
-&kp A             &kp S     &kp D         &kp F        &kp G                      &kp MINUS      &kp H        &kp J   &kp K      &kp L      &kp ENTER
-&mt LEFT_SHIFT Z  &kp X     &kp C         &kp V        &kp B        &lt 3 TAB     &kp SLASH      &kp N        &kp M   &mkp MB1   &mkp MB2   &mt RIGHT_SHIFT SLASH
-&kp LCTRL         &kp LGUI  &kp LEFT_ALT  &lt 1 SPACE   &lt 2 SPACE   &kp GRAVE     &kp BACKSPACE  &lt 2 ENTER                              &kp ESC
+&kp Q             &kp W     &kp E         &kp R        &kp T                                                  &kp Y        &kp U  &kp I     &kp O     &kp P
+&kp A             &kp S     &kp D         &kp F        &kp G                                   &kp MINUS      &kp H        &kp J  &kp K     &kp L     &kp ENTER
+&mt LEFT_SHIFT Z  &kp X     &kp C         &kp V        &kp B        &lt 3 TAB                  &kp SLASH      &kp N        &kp M  &mkp MB1  &mkp MB2  &mt RIGHT_SHIFT SLASH
+&kp LCTRL         &kp LGUI  &kp LEFT_ALT  &lt 1 SPACE  &lt 2 SPACE  &kp LANG_ZENKAKUHANKAKU    &kp BACKSPACE  &lt 2 ENTER                             &kp ESC
             >;
 
-            sensor-bindings = <&scroll_up_down>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            sensor-bindings =
+                <&scroll_up_down>,
+                <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         /* --- PC Layer 1: Symbols（US論理で視覚一致）---
@@ -101,76 +117,76 @@
          * 2段目: [] \ ; ' _
          * 3段目: {} : " | ^ =
          */
+
         layer_1 {
             bindings = <
-&kp MINUS            &kp N7              &kp N8                &kp N9                &kp PLUS
-                                                        &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LESS_THAN        &kp GREATER_THAN    &trans
-&kp SLASH            &kp N4              &kp N5                &kp N6                &kp ASTERISK
-                                                        &kp SEMICOLON          &kp LEFT_BRACKET       &kp RIGHT_BRACKET    &kp UNDERSCORE      &kp SINGLE_QUOTE   &kp BACKSLASH
-&mt LEFT_SHIFT N0    &kp N1              &kp N2                &kp N3                &kp DOT     &kp EQUAL
-                                                        &kp COLON              &kp LEFT_BRACE         &kp RIGHT_BRACE      &kp CARET           &kp DOUBLE_QUOTES  &kp PIPE
-&trans               &trans              &trans                &trans                &trans      &trans
-                                                        &trans                 &trans                                        &trans
+&kp MINUS          &kp N7  &kp N8  &kp N9  &kp PLUS                                  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LESS_THAN   &kp GREATER_THAN   &trans
+&kp SLASH          &kp N4  &kp N5  &kp N6  &kp ASTERISK               &kp SEMICOLON  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp UNDERSCORE  &kp SINGLE_QUOTE   &kp BACKSLASH
+&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp DOT       &kp EQUAL    &kp COLON      &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp CARET       &kp DOUBLE_QUOTES  &kp PIPE
+&trans             &trans  &trans  &trans  &trans        &trans       &trans         &trans                                                                          &trans
             >;
 
             sensor-bindings = <&scroll_up_down>;
         };
 
         /* --- PC Layer 2: Navigation --- */
+
         layer_2 {
             bindings = <
-&kp EXCLAMATION  &kp AT           &kp HASH  &kp DOLLAR  &kp PERCENT                     &kp EXCLAMATION  &kp QUESTION  &kp UP      &trans      &trans
-&kp TILDE        &kp AMPERSAND    &to 4     &trans      &trans                   &trans  &trans           &kp LEFT      &kp DOWN    &kp RIGHT   &trans
-&kp DEL          &kp HOME         &kp END   &kp PG_UP   &kp PG_DN     &trans     &trans  &trans           &trans        &kp COMMA   &kp DOT     &trans
-&trans           &trans           &trans    &trans      &trans        &trans     &trans  &trans                                                 &trans
+&kp EXCLAMATION  &kp AT         &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans     &trans
+&kp TILDE        &kp AMPERSAND  &to 4     &trans      &trans                 &trans  &trans           &kp LEFT      &kp DOWN   &kp RIGHT  &trans
+&kp DEL          &kp HOME       &kp END   &kp PG_UP   &kp PG_DN    &trans    &trans  &trans           &trans        &kp COMMA  &kp DOT    &trans
+&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans                                               &trans
             >;
         };
 
         /* --- Layer 3: Bluetooth / Layout Shift 操作用 --- */
+
         bluetooth {
             bindings = <
-&bt BT_CLR  &trans  &trans  &trans  &trans                     &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &tog_ls
-&trans      &trans  &trans  &trans  &trans             &trans  &to 0          &to 4          &to 4           &trans         &trans
-&trans      &trans  &trans  &trans  &trans   &trans    &trans  &trans         &trans         &trans          &trans         &trans
-&trans      &trans  &trans  &trans  &trans   &trans    &trans  &trans                                                       &trans
+&bt BT_CLR  &trans  &trans  &trans  &trans                    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &tog_ls
+&trans      &trans  &trans  &trans  &trans            &trans  &to 0         &to 4         &to 4         &trans        &trans
+&trans      &trans  &trans  &trans  &trans  &trans    &trans  &trans        &trans        &trans        &trans        &trans
+&trans      &trans  &trans  &trans  &trans  &trans    &trans  &trans                                                  &trans
             >;
         };
 
         /* --- iPad/iPhone Layer 4: Default（US論理） --- */
+
         ipad_default_layer {
             bindings = <
-&kp Q             &kp W      &kp E         &kp R        &kp T                                     &kp Y        &kp U   &kp I      &kp O      &kp P
-&kp A             &kp S      &kp D         &kp F        &kp G                      &kp MINUS      &kp H        &kp J   &kp K      &kp L      &kp ENTER
-&mt LEFT_SHIFT Z  &kp X      &kp C         &kp V        &kp B        &lt 3 TAB     &kp SEMICOLON  &kp N        &kp M   &mkp MB1   &mkp MB2   &mt RIGHT_SHIFT SLASH
-&kp LGUI          &kp LCTRL  &kp LEFT_ALT  &lt 5 SPACE   &lt 6 SPACE   &kp GRAVE     &kp BACKSPACE  &lt 6 ENTER                              &kp ESC
+&kp Q             &kp W      &kp E         &kp R        &kp T                                    &kp Y        &kp U  &kp I     &kp O     &kp P
+&kp A             &kp S      &kp D         &kp F        &kp G                     &kp MINUS      &kp H        &kp J  &kp K     &kp L     &kp ENTER
+&mt LEFT_SHIFT Z  &kp X      &kp C         &kp V        &kp B        &lt 3 TAB    &kp SEMICOLON  &kp N        &kp M  &mkp MB1  &mkp MB2  &mt RIGHT_SHIFT SLASH
+&kp LGUI          &kp LCTRL  &kp LEFT_ALT  &lt 5 SPACE  &lt 6 SPACE  &kp GRAVE    &kp BACKSPACE  &lt 6 ENTER                             &kp ESC
             >;
 
-            sensor-bindings = <&scroll_up_down>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            sensor-bindings =
+                <&scroll_up_down>,
+                <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
         /* --- iPad/iPhone Layer 5: Symbols（US論理） --- */
+
         ipad_layer_1 {
             bindings = <
-&kp MINUS             &kp N7      &kp N8      &kp N9      &kp PLUS
-                                                      &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LESS_THAN     &kp GREATER_THAN  &trans
-&kp SLASH             &kp N4      &kp N5      &kp N6      &kp ASTERISK
-                                                      &trans                &kp LEFT_BRACKET       &kp RIGHT_BRACKET &kp UNDERSCORE    &kp SINGLE_QUOTE  &kp BACKSLASH
-&mt LEFT_SHIFT N0     &kp N1      &kp N2      &kp N3      &kp DOT      &kp EQUAL
-                                                      &trans                &kp LEFT_BRACE         &kp RIGHT_BRACE   &kp COLON         &kp DOUBLE_QUOTES &kp PIPE
-&trans                &trans      &trans      &trans      &trans       &trans
-                                                      &trans               &trans                                   &trans
+&kp MINUS          &kp N7  &kp N8  &kp N9  &kp PLUS                           &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LESS_THAN   &kp GREATER_THAN   &trans
+&kp SLASH          &kp N4  &kp N5  &kp N6  &kp ASTERISK               &trans  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp UNDERSCORE  &kp SINGLE_QUOTE   &kp BACKSLASH
+&mt LEFT_SHIFT N0  &kp N1  &kp N2  &kp N3  &kp DOT       &kp EQUAL    &trans  &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp COLON       &kp DOUBLE_QUOTES  &kp PIPE
+&trans             &trans  &trans  &trans  &trans        &trans       &trans  &trans                                                                          &trans
             >;
 
             sensor-bindings = <&scroll_up_down>;
         };
 
         /* --- iPad/iPhone Layer 6: Navigation --- */
+
         ipad_layer_2 {
             bindings = <
-&kp EXCLAMATION  &kp AT           &kp HASH  &kp DOLLAR  &kp PERCENT                     &kp EXCLAMATION  &kp QUESTION  &kp UP      &trans      &trans
-&kp TILDE        &kp AMPERSAND    &to 0     &trans      &trans                   &trans  &trans           &kp LEFT      &kp DOWN    &kp RIGHT   &trans
-&kp DEL          &kp HOME         &kp END   &kp PG_UP   &kp PG_DN     &trans     &trans  &trans           &trans        &kp COMMA   &kp DOT     &trans
-&trans           &trans           &trans    &trans      &trans        &trans     &trans  &trans                                                 &trans
+&kp EXCLAMATION  &kp AT         &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp EXCLAMATION  &kp QUESTION  &kp UP     &trans     &trans
+&kp TILDE        &kp AMPERSAND  &to 0     &trans      &trans                 &trans  &trans           &kp LEFT      &kp DOWN   &kp RIGHT  &trans
+&kp DEL          &kp HOME       &kp END   &kp PG_UP   &kp PG_DN    &trans    &trans  &trans           &trans        &kp COMMA  &kp DOT    &trans
+&trans           &trans         &trans    &trans      &trans       &trans    &trans  &trans                                               &trans
             >;
         };
     };
