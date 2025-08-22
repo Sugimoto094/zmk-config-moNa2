@@ -1,62 +1,26 @@
-name: ZMK Build (moNa2)
-
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - board: seeeduino_xiao_ble
-            shield: "moNa2_R rgbled_adapter"
-            outdir: build/moNa2_R
-            artifact: moNa2_R-rgbled_adapter
-          - board: seeeduino_xiao_ble
-            shield: "moNa2_L rgbled_adapter"
-            outdir: build/moNa2_L
-            artifact: moNa2_L-rgbled_adapter
-          - board: seeeduino_xiao_ble
-            shield: "settings_reset"
-            outdir: build/settings_reset
-            artifact: settings_reset
-
-    env:
-      ZMK_CONFIG: ${{ github.workspace }}/config
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python & west
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-      - run: |
-          python -m pip install --upgrade pip
-          pip install west
-
-      - name: West init / update
-        run: |
-          west init -l config
-          west update
-          west zephyr-export
-
-      - name: Build (${{ matrix.board }} / ${{ matrix.shield }})
-        run: |
-          west build -s zmk/app -d "${{ matrix.outdir }}" -b "${{ matrix.board }}" -- \
-            -DZMK_CONFIG="${ZMK_CONFIG}" \
-            "-DSHIELD=${{ matrix.shield }}"
-
-      - name: Upload UF2 (${{ matrix.artifact }})
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact }}-seeeduino_xiao_ble-zmk
-          path: ${{ matrix.outdir }}/zephyr/zmk.uf2
-          if-no-files-found: error
+# This file generates the GitHub Actions matrix.
+# For simple board + shield combinations, add them to the top level board and
+# shield arrays, for more control, add individual board + shield combinations
+# to the `include` property. You can also use the `cmake-args` property to
+# pass flags to the build command and `artifact-name` to assign a name to
+# distinguish build outputs from each other:
+#
+# board: [ "nice_nano_v2" ]
+# shield: [ "corne_left", "corne_right" ]
+# include:
+#   - board: bdn9_rev2
+#   - board: nice_nano_v2
+#     shield: reviung41
+#   - board: nice_nano_v2
+#     shield: corne_left
+#     cmake-args: -DCONFIG_ZMK_USB_LOGGING=y
+#     artifact-name: corne_left_with_logging
+#
+---
+include:
+  - board: seeeduino_xiao_ble
+    shield: moNa2_R rgbled_adapter
+  - board: seeeduino_xiao_ble
+    shield: moNa2_L rgbled_adapter
+  - board: seeeduino_xiao_ble
+    shield: settings_reset
