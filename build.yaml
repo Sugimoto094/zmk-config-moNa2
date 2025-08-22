@@ -1,4 +1,4 @@
-name: ZMK Build (moNa2 + rgbled_adapter)
+name: ZMK Build (moNa2)
 
 on:
   push:
