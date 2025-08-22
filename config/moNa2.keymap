@@ -18,7 +18,6 @@
 
     /* ===== Macros ===== */
     macros {
-        /* 配列状態を確実に固定（明示 ON/OFF） */
         pc_mode: pc_mode {
             compatible = "zmk,behavior-macro";
             label = "PC_MODE";
@@ -40,7 +39,6 @@
             bindings = <&bt BT_SEL 2 &tog_ls_off &to 4>;
         };
 
-        /* PC用：一時的に layout-shift をOFFにして GRAVE を“生送信”→ONに戻す */
         grave_pc_raw: grave_pc_raw {
             compatible = "zmk,behavior-macro";
             label = "GRAVE_PC_RAW";
@@ -48,7 +46,6 @@
             bindings = <&tog_ls_off &kp GRAVE &tog_ls_on>;
         };
 
-        /* 任意レイヤへ戻る（既存） */
         to_layer_0: to_layer_0 {
             compatible = "zmk,behavior-macro-one-param";
             label = "TO_LAYER_0";
@@ -67,7 +64,6 @@
             tapping-term-ms = <200>;
         };
 
-        /* マウスホイール回転 */
         scroll_up_down: behavior_sensor_rotate_mouse_wheel_up_down {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
@@ -80,7 +76,7 @@
     keymap {
         compatible = "zmk,keymap";
 
-        /* --- PC Layer 0: Default（US論理） --- */
+        /* --- PC Layer 0: Default --- */
         default_layer {
             bindings = <
 &kp Q             &kp W     &kp E         &kp R        &kp T                                     &kp Y        &kp U   &kp I      &kp O      &kp P
@@ -92,16 +88,14 @@
             sensor-bindings = <&scroll_up_down>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-        /* --- PC Layer 1: Symbols（US論理）
-         * 右端キーに GRAVE
-         */
+        /* --- PC Layer 1: Symbols --- */
         layer_1 {
             bindings = <
 &kp MINUS            &kp N7              &kp N8                &kp N9                &kp PLUS
-                                                        &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LS(COMMA)       &kp LS(DOT)        &grave_pc_raw
+                                                        &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LS(COMMA)       &kp LS(PERIOD)      &grave_pc_raw
 &kp SLASH            &kp N4              &kp N5                &kp N6                &kp ASTERISK
                                                         &kp SEMICOLON          &kp LEFT_BRACKET       &kp RIGHT_BRACKET    &kp UNDERSCORE      &kp SINGLE_QUOTE   &kp BACKSLASH
-&mt LEFT_SHIFT N0    &kp N1              &kp N2                &kp N3                &kp DOT     &kp EQUAL
+&mt LEFT_SHIFT N0    &kp N1              &kp N2                &kp N3                &kp PERIOD   &kp EQUAL
                                                         &kp COLON              &kp LEFT_BRACE         &kp RIGHT_BRACE      &kp CARET           &kp DOUBLE_QUOTES  &kp PIPE
 &trans               &trans              &trans                &trans                &trans      &trans
                                                         &trans                 &trans                                        &trans
@@ -115,12 +109,12 @@
             bindings = <
 &kp EXCLAMATION  &kp AT           &kp HASH  &kp DOLLAR  &kp PERCENT                     &kp EXCLAMATION  &kp QUESTION  &kp UP      &trans      &trans
 &kp TILDE        &kp AMPERSAND    &to 4     &trans      &trans                   &trans  &trans           &kp LEFT      &kp DOWN    &kp RIGHT   &trans
-&kp DEL          &kp HOME         &kp END   &kp PG_UP   &kp PG_DN     &trans     &trans  &trans           &trans        &kp COMMA   &kp DOT     &trans
+&kp DEL          &kp HOME         &kp END   &kp PG_UP   &kp PG_DN     &trans     &trans  &trans           &trans        &kp COMMA   &kp PERIOD  &trans
 &trans           &trans           &trans    &trans      &trans        &trans     &trans  &trans                                                 &trans
             >;
         };
 
-        /* --- Layer 3: Bluetooth / Layout Shift 操作用 --- */
+        /* --- Layer 3: Bluetooth --- */
         bluetooth {
             bindings = <
 &bt BT_CLR  &trans  &trans  &trans  &trans                     &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &tog_ls
@@ -130,7 +124,7 @@
             >;
         };
 
-        /* --- iPad/iPhone Layer 4: Default（US論理） --- */
+        /* --- iPad/iPhone Layer 4: Default --- */
         ipad_default_layer {
             bindings = <
 &kp Q             &kp W      &kp E         &kp R        &kp T                                     &kp Y        &kp U   &kp I      &kp O      &kp P
@@ -142,14 +136,14 @@
             sensor-bindings = <&scroll_up_down>, <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-        /* --- iPad/iPhone Layer 5: Symbols（US論理）— 右端は素の GRAVE --- */
+        /* --- iPad/iPhone Layer 5: Symbols --- */
         ipad_layer_1 {
             bindings = <
 &kp MINUS             &kp N7      &kp N8      &kp N9      &kp PLUS
-                                                      &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LS(COMMA)    &kp LS(DOT)     &kp GRAVE
+                                                      &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LS(COMMA)    &kp LS(PERIOD)     &kp GRAVE
 &kp SLASH             &kp N4      &kp N5      &kp N6      &kp ASTERISK
                                                       &trans                &kp LEFT_BRACKET       &kp RIGHT_BRACKET &kp UNDERSCORE  &kp SINGLE_QUOTE  &kp BACKSLASH
-&mt LEFT_SHIFT N0     &kp N1      &kp N2      &kp N3      &kp DOT      &kp EQUAL
+&mt LEFT_SHIFT N0     &kp N1      &kp N2      &kp N3      &kp PERIOD      &kp EQUAL
                                                       &trans                &kp LEFT_BRACE         &kp RIGHT_BRACE   &kp COLON       &kp DOUBLE_QUOTES &kp PIPE
 &trans                &trans      &trans      &trans      &trans       &trans
                                                       &trans               &trans                                   &trans
@@ -163,7 +157,7 @@
             bindings = <
 &kp EXCLAMATION  &kp AT           &kp HASH  &kp DOLLAR  &kp PERCENT                     &kp EXCLAMATION  &kp QUESTION  &kp UP      &trans      &trans
 &kp TILDE        &kp AMPERSAND    &to 0     &trans      &trans                   &trans  &trans           &kp LEFT      &kp DOWN    &kp RIGHT   &trans
-&kp DEL          &kp HOME         &kp END   &kp PG_UP   &kp PG_DN     &trans     &trans  &trans           &trans        &kp COMMA   &kp DOT     &trans
+&kp DEL          &kp HOME         &kp END   &kp PG_UP   &kp PG_DN     &trans     &trans  &trans           &trans        &kp COMMA   &kp PERIOD  &trans
 &trans           &trans           &trans    &trans      &trans        &trans     &trans  &trans                                                 &trans
             >;
         };
