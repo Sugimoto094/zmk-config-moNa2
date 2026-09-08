@@ -23,7 +23,7 @@ manifest:
     # RGB LED ウィジェット（shield: rgbled_adapter 用）
     - name: zmk-rgbled-widget
       remote: caksoylar
-      revision: main
+      revision: v0.3
 
     # Layout Shift（JIS/US ずれを実行時に吸収）
     - name: zmk-layout-shift
