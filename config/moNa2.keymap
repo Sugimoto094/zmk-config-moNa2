@@ -119,17 +119,16 @@
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-        /* --- PC Layer 1: Symbols（US論理で視覚一致）---
-         * 1段目: () <> `
-         * 2段目: [] \ ; ' _
-         * 3段目: {} : " | ^ =
+        /* --- PC Layer 1: Navigation / Function keys ---
+         * 左手上段: Page Up / ↑ / Page Down
+         * 左手ホーム段: Home / ← / ↓ / → / End
          */
 
         layer_1 {
             bindings = <
-&trans  &kp N7  &kp N8  &kp N9  &kp PLUS                     &trans  &kp F7  &kp F8  &kp F9  &kp F12
-&trans  &kp N4  &kp N5  &kp N6  &kp MINUS            &trans  &trans  &kp F4  &kp F5  &kp F6  &kp F11
-&kp N0  &kp N1  &kp N2  &kp N3  &kp EQUAL  &trans    &trans  &trans  &kp F1  &kp F2  &kp F3  &kp F10
+&kp PG_UP  &trans          &kp UP_ARROW    &trans           &kp PG_DN                    &trans  &kp F7  &kp F8  &kp F9  &kp F12
+&kp HOME   &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp END              &trans  &trans  &kp F4  &kp F5  &kp F6  &kp F11
+&trans     &trans          &trans          &trans           &trans     &trans    &trans  &trans  &kp F1  &kp F2  &kp F3  &kp F10
 &trans  &trans  &trans  &trans  &trans     &trans    &trans  &trans                          &trans
             >;
 
