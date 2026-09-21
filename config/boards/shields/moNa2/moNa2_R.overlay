@@ -1,5 +1,4 @@
 #include "moNa2.dtsi"
-#include <input/processors.dtsi>
 
 &default_transform {
     col-offset = <6>;
@@ -19,18 +18,7 @@
     trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&zip_temp_layer 7 10000>;
     };
-};
-
-&zip_temp_layer {
-    excluded-positions = <
-        17  // J: left click
-        18  // K: middle click
-        19  // L: right click
-        29  // M: mouse button 4
-        31  // .: mouse button 5
-    >;
 };
 
 &pinctrl {
